@@ -1,0 +1,1130 @@
+/*
+ * Cromo — a futuristic, metallic dark theme for Typora.
+ * Graphite surfaces, polished-silver headings, silver outlines and a single ice-blue accent.
+ *
+ * Author: kizei23 (https://github.com/kizei23/typora-theme-cromo)
+ * License: MIT
+ * Designed and tested on macOS (Typora 1.14). Uses system fonts: Avenir Next for headings,
+ * Inter for body text (falls back to the system font) and SF Mono for code.
+ * Printing and PDF export switch to light colors.
+ */
+
+@import "night/mermaid.dark.css";
+
+/* ===== Base: layout and typography ===== */
+
+/* ---------- Página ---------- */
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+/* !important porque o Typora guarda a cor de fundo do tema anterior e a aplica
+   ao abrir; sem isso o fundo velho aparece até a próxima troca de tema */
+html,
+body,
+content {
+    background-color: var(--bg-color) !important;
+}
+
+html,
+body {
+    color: var(--text-color);
+}
+
+body {
+    font-family: var(--font-text);
+    line-height: 1.72;
+    font-feature-settings: "kern", "liga", "calt";
+}
+
+#write {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 56px 40px 140px;
+    caret-color: var(--accent);
+}
+
+#write > :first-child {
+    margin-top: 0;
+}
+
+::selection,
+*.in-text-selection {
+    background: var(--select-text-bg-color);
+    color: inherit;
+    text-shadow: none;
+}
+
+/* ---------- Títulos ---------- */
+
+h1, h2, h3, h4, h5, h6 {
+    position: relative;
+    color: var(--title-color, var(--heading-color));
+    cursor: text;
+    word-wrap: break-word;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.005em;
+}
+
+h1 {
+    font-size: 2.25em;
+    font-weight: 400;
+    line-height: 1.2;
+    margin: 1.4em 0 0.55em;
+}
+
+h2 {
+    font-size: 1.6em;
+    font-weight: 400;
+    line-height: 1.3;
+    margin: 1.9em 0 0.5em;
+}
+
+h3 {
+    font-size: 1.2em;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 1.7em 0 0.4em;
+}
+
+h4, h5, h6 {
+    font-family: var(--font-text);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    line-height: 1.5;
+    margin: 1.8em 0 0.4em;
+}
+
+h4 { font-size: 0.82em; }
+h5 { font-size: 0.76em; color: var(--muted-color); }
+h6 { font-size: 0.72em; color: var(--muted-color); }
+
+h1 code, h2 code, h3 code, h4 code, h5 code, h6 code {
+    font-size: inherit;
+}
+
+/* rótulo h3–h6 que o Typora mostra ao lado do título em edição */
+#write > h3.md-focus:before,
+#write > h4.md-focus:before,
+#write > h5.md-focus:before,
+#write > h6.md-focus:before {
+    color: var(--faint-color);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    font-family: var(--font-ui);
+    font-size: 9px;
+    letter-spacing: 0;
+    text-transform: lowercase;
+    left: -1.75rem;
+    top: 0.45rem;
+    padding: 0 2px;
+    line-height: normal;
+}
+
+/* ---------- Texto ---------- */
+
+p, blockquote, ul, ol, dl, table, pre {
+    margin: 0.85em 0;
+}
+
+strong, b {
+    font-weight: 600;
+    color: var(--heading-color);
+}
+
+#write a {
+    color: var(--text-color);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    transition: color 0.15s ease;
+}
+
+#write a:hover {
+    color: var(--accent-strong);
+}
+
+mark {
+    background: var(--mark-bg);
+    color: var(--heading-color);
+    padding: 0 0.15em;
+    border-radius: 3px;
+}
+
+#write hr {
+    height: 1px;
+    border: 0;
+    padding: 0;
+    margin: 2.6em 0;
+    background: var(--rule);
+}
+
+blockquote {
+    margin: 1.3em 0;
+    padding: 0.1em 0 0.1em 1.2em;
+    border-left: 2px solid var(--accent);
+    color: var(--muted-color);
+}
+
+blockquote blockquote {
+    padding-right: 0;
+}
+
+sup.md-footnote {
+    background: transparent;
+    color: var(--accent-strong);
+    font-weight: 600;
+    padding: 0 0.1em;
+}
+
+.footnotes {
+    font-size: 0.88em;
+    color: var(--muted-color);
+}
+
+/* ---------- Listas ---------- */
+
+ul, ol {
+    padding-left: 1.6em;
+}
+
+li > ul, li > ol {
+    margin: 0.15em 0;
+}
+
+li + li {
+    margin-top: 0.2em;
+}
+
+#write li::marker {
+    color: var(--muted-color);
+}
+
+li p.first {
+    display: inline-block;
+}
+
+/* a caixinha é desenhada no ::before, porque o Typora encolhe o próprio input */
+.md-task-list-item > input {
+    -webkit-appearance: none;
+    appearance: none;
+    margin-left: -1.45em;
+    margin-top: 0.4em;
+    border: 0;
+    background: none;
+    cursor: pointer;
+}
+
+.md-task-list-item > input::before {
+    content: "";
+    display: block;
+    width: 14px;
+    height: 14px;
+    box-sizing: border-box;
+    border: 1.5px solid var(--muted-color);
+    border-radius: var(--check-radius, 4px);
+    background: transparent;
+}
+
+.md-task-list-item > input:checked::before,
+.md-task-list-item > input[checked]::before {
+    border-color: var(--accent);
+    background: var(--accent) var(--check-icon) center / 10px no-repeat;
+    box-shadow: var(--check-glow, none);
+}
+
+.task-list-done {
+    color: var(--muted-color);
+}
+
+.task-list-done > p {
+    text-decoration: line-through;
+    text-decoration-color: var(--faint-color);
+}
+
+/* ---------- Tabelas ---------- */
+
+#write table {
+    border-collapse: collapse;
+    font-size: 0.92em;
+    font-variant-numeric: tabular-nums;
+    word-break: initial;
+}
+
+#write table tr {
+    border: 0;
+    background: transparent;
+}
+
+#write table th,
+#write table td {
+    border: 0;
+    border-bottom: 1px solid var(--rule);
+    padding: 0.5em 0.95em;
+    text-align: left;
+    vertical-align: top;
+}
+
+#write table th {
+    font-weight: 600;
+    color: var(--heading-color);
+    border-bottom: 1.5px solid var(--heading-color);
+}
+
+#write table tr:last-child td {
+    border-bottom: 0;
+}
+
+#write table th:first-child,
+#write table td:first-child {
+    padding-left: 0.2em;
+}
+
+/* ---------- Código ---------- */
+
+code, tt, kbd, .md-fences, pre {
+    font-family: var(--font-mono);
+}
+
+#write code,
+#write tt {
+    font-size: 0.86em;
+    background: var(--code-bg);
+    color: var(--heading-color);
+    border: 0;
+    border-radius: 4px;
+    padding: 0.12em 0.38em;
+}
+
+#write .md-fences {
+    font-size: 0.86em;
+    line-height: 1.6;
+    background: var(--fence-bg);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 0.85em 1.1em;
+    margin: 1.3em 0;
+}
+
+#write .md-fences .CodeMirror-gutters {
+    background: transparent;
+    border-right: 1px solid var(--rule);
+}
+
+.CodeMirror-linenumber {
+    color: var(--faint-color);
+}
+
+.md-lang {
+    color: var(--faint-color);
+    font-family: var(--font-ui);
+}
+
+kbd {
+    font-size: 0.82em;
+    padding: 0.1em 0.45em;
+    border: 1px solid var(--rule);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    background: var(--code-bg);
+    color: var(--heading-color);
+}
+
+.CodeMirror div.CodeMirror-cursor {
+    border-left: 1.5px solid var(--accent);
+}
+
+.cm-s-inner .cm-keyword,
+.cm-s-inner .cm-builtin    { color: var(--code-keyword); }
+.cm-s-inner .cm-string,
+.cm-s-inner .cm-string-2   { color: var(--code-string); }
+.cm-s-inner .cm-number,
+.cm-s-inner .cm-atom       { color: var(--code-number); }
+.cm-s-inner .cm-def,
+.cm-s-inner .cm-variable-2,
+.cm-s-inner .cm-header     { color: var(--code-def); }
+.cm-s-inner .cm-tag        { color: var(--code-tag); }
+.cm-s-inner .cm-attribute,
+.cm-s-inner .cm-qualifier  { color: var(--code-number); }
+.cm-s-inner .cm-comment    { color: var(--faint-color); font-style: italic; }
+.cm-s-inner .cm-meta,
+.cm-s-inner .cm-bracket,
+.cm-s-inner .cm-hr         { color: var(--muted-color); }
+.cm-s-inner .cm-variable,
+.cm-s-inner .cm-variable-3,
+.cm-s-inner .cm-property,
+.cm-s-inner .cm-operator   { color: var(--text-color); }
+.cm-s-inner .cm-link       { color: var(--accent-strong); }
+.cm-s-inner .cm-quote      { color: var(--muted-color); font-style: italic; }
+.cm-s-inner .cm-positive   { color: var(--code-string); }
+.cm-s-inner .cm-negative   { color: var(--code-tag); }
+
+/* ---------- Bloco de metadados (front matter das notas do vault) ---------- */
+
+#write pre.md-meta-block {
+    font-size: 0.78em;
+    line-height: 1.55;
+    color: var(--muted-color);
+    background: var(--fence-bg);
+    border: 0;
+    border-radius: 6px;
+    padding: 0.8em 1em;
+    margin-top: 0 !important;
+    margin-bottom: 2em;
+}
+
+/* ---------- Imagens, sumário, diagramas ---------- */
+
+#write .md-image > img {
+    border-radius: 6px;
+}
+
+.md-image > .md-meta {
+    color: var(--muted-color);
+    font-family: var(--font-mono);
+    font-size: 0.8em;
+    border-radius: 3px;
+}
+
+.md-toc {
+    margin: 1.2em 0 2em;
+    padding: 0.4em 0 0.6em 1em;
+    border-left: 1px solid var(--rule);
+}
+
+.md-toc-item {
+    color: var(--muted-color);
+    text-decoration: none;
+}
+
+.md-toc-inner:hover {
+    color: var(--heading-color);
+}
+
+.md-tag {
+    color: var(--faint-color);
+    opacity: 1;
+}
+
+.md-comment {
+    color: var(--muted-color);
+    opacity: 1;
+}
+
+/* ---------- Busca ---------- */
+
+.md-search-hit {
+    background: var(--mark-bg);
+    color: inherit;
+}
+
+.md-search-hit * {
+    color: inherit;
+}
+
+.md-search-hit.md-search-select,
+.md-search-select {
+    background: var(--accent);
+    color: #111;
+}
+
+/* ---------- Modo foco (F8) ---------- */
+
+.on-focus-mode .md-end-block:not(.md-focus):not(.md-focus-container) * {
+    color: var(--blur-color) !important;
+}
+
+.on-focus-mode li[cid]:not(.md-focus-container) {
+    color: var(--blur-color);
+}
+
+.on-focus-mode .md-end-block:not(.md-focus) img,
+.on-focus-mode .md-task-list-item:not(.md-focus-container) > input {
+    opacity: 0.35 !important;
+}
+
+.on-focus-mode .md-fences.md-focus .CodeMirror-code > *:not(.CodeMirror-activeline) *,
+.on-focus-mode .CodeMirror.cm-s-inner:not(.CodeMirror-focused) * {
+    color: var(--blur-color) !important;
+}
+
+.on-focus-mode blockquote {
+    border-left-color: var(--rule);
+}
+
+/* ---------- Modo código-fonte (⌘/) ---------- */
+
+#typora-source {
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+    line-height: 1.7;
+}
+
+#typora-source .CodeMirror-lines {
+    max-width: 780px;
+}
+
+.cm-s-typora-default .cm-header,
+.cm-s-typora-default .cm-property { color: var(--heading-color); }
+.cm-s-typora-default .cm-link,
+.cm-s-typora-default .cm-url      { color: var(--accent-strong); }
+.cm-s-typora-default .cm-comment,
+.cm-s-typora-default .cm-quote    { color: var(--muted-color); }
+.cm-s-typora-default .cm-variable-2,
+.cm-s-typora-default .cm-variable-3,
+.cm-s-typora-default .cm-keyword  { color: var(--text-color); }
+.cm-s-typora-default .cm-string   { color: var(--code-string); }
+.cm-s-typora-default .cm-strong   { color: var(--heading-color); }
+.cm-s-typora-default .CodeMirror-activeline-background {
+    background: var(--fence-bg);
+}
+
+/* ---------- Interface: barra lateral, rodapé, menus ---------- */
+
+header,
+footer,
+.context-menu,
+.megamenu-content,
+#typora-sidebar,
+.sidebar-content,
+.ty-preferences,
+#typora-quick-open,
+#md-searchpanel {
+    font-family: var(--font-ui);
+}
+
+#typora-sidebar {
+    box-shadow: none;
+    border-right: 1px solid var(--rule);
+}
+
+.mac-seamless-mode #typora-sidebar {
+    background-color: var(--side-bar-bg-color);
+}
+
+.sidebar-tabs {
+    border-bottom: none;
+}
+
+.outline-item:hover {
+    background-color: var(--item-hover-bg-color);
+    border-color: var(--item-hover-bg-color);
+}
+
+.outline-item-active .outline-label,
+.outline-item.active {
+    color: var(--heading-color);
+    font-weight: 600;
+}
+
+.file-list-item {
+    border-bottom: none;
+}
+
+.file-node-content:hover .file-node-icon,
+.file-node-content:hover .file-node-open-state {
+    visibility: visible;
+}
+
+footer.ty-footer {
+    border-color: var(--rule);
+}
+
+#md-notification .btn {
+    border: 0;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--scroll-thumb);
+    border-radius: 8px;
+}
+
+/* ---------- Impressão e PDF ---------- */
+
+@media print {
+    html { font-size: 12.5px; }
+    #write { padding: 0; max-width: none; }
+    pre, .md-fences, table, blockquote { page-break-inside: avoid; }
+    h1, h2, h3 { page-break-after: avoid; }
+}
+
+/* ===== Dark palette and interface ===== */
+
+:root {
+    --font-text: "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+    --font-display: "Iowan Old Style", "Charter", Georgia, serif;
+    --font-mono: "SF Mono", ui-monospace, Menlo, monospace;
+    --font-ui: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+    --monospace: var(--font-mono);
+
+    --bg-color: #151515;
+    --text-color: #d9d7d1;
+    --heading-color: #f4f2ed;
+    --muted-color: #8f8d87;
+    --faint-color: #66645f;
+    --blur-color: #4a4946;
+    --rule: #2c2c2a;
+    --code-bg: #242422;
+    --fence-bg: #1b1b1a;
+    --scroll-thumb: rgba(255, 255, 255, 0.18);
+
+    --accent: #f0b03a;
+    --accent-strong: #f5c463;
+    --mark-bg: rgba(240, 176, 58, 0.24);
+    --select-text-bg-color: rgba(240, 176, 58, 0.26);
+    --search-select-bg-color: #f0b03a;
+    --check-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2l2.3 2.3 4.7-5' fill='none' stroke='%23151515' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+    --code-keyword: #d1a9e6;
+    --code-string: #a9cf8f;
+    --code-number: #f2b56b;
+    --code-def: #91b9de;
+    --code-tag: #e59c8f;
+
+    --md-char-color: #5f5e59;
+    --meta-content-color: #7d7b76;
+    --heading-char-color: #55544f;
+
+    --side-bar-bg-color: #101010;
+    --control-text-color: #8f8d87;
+    --control-text-hover-color: #f4f2ed;
+    --item-hover-bg-color: #1f1f1e;
+    --item-hover-text-color: #f4f2ed;
+    --active-file-bg-color: #242422;
+    --active-file-text-color: #f4f2ed;
+    --active-file-border-color: #f0b03a;
+    --primary-color: #f0b03a;
+    --window-border: 1px solid #2c2c2a;
+    --rawblock-edit-panel-bd: #242422;
+}
+
+@media print {
+    :root {
+        --bg-color: #ffffff;
+        --text-color: #2b2b2b;
+        --heading-color: #111111;
+        --muted-color: #75746f;
+        --faint-color: #a9a8a2;
+        --rule: #e7e6e1;
+        --code-bg: #f0efea;
+        --fence-bg: #f5f4f0;
+        --accent: #e0a01b;
+        --accent-strong: #9a6200;
+        --mark-bg: #fbe8b8;
+        --code-keyword: #7a3e9d;
+        --code-string: #3d7a4e;
+        --code-number: #a35a12;
+        --code-def: #1f5f8b;
+        --code-tag: #9b3b3b;
+    }
+}
+
+/* ---------- Interface escura (adaptado do tema Night que vem com o Typora) ---------- */
+
+html,
+body,
+button,
+input,
+select,
+textarea,
+div.code-tooltip-content {
+    color: var(--text-color);
+    border-color: transparent;
+}
+
+div.code-tooltip,
+.md-hover-tip .md-arrow:after,
+.md-table-resize-popover,
+#ty-tooltip {
+    background: #242422;
+    color: var(--heading-color);
+}
+
+.popover.bottom > .arrow:after {
+    border-bottom-color: #242422;
+}
+
+.native-window #md-notification {
+    border: 1px solid var(--rule);
+}
+
+.context-menu,
+#spell-check-panel,
+#footer-word-count-info,
+#toc-dropmenu,
+#sidebar-files-menu {
+    background-color: #1d1d1c;
+    border: 1px solid var(--rule);
+}
+
+.context-menu.dropdown-menu .divider,
+.dropdown-menu .divider {
+    background-color: var(--rule);
+    border-color: var(--rule);
+    opacity: 1;
+}
+
+.dropdown-menu .btn:hover,
+.dropdown-menu .btn:focus,
+.md-toc .btn:hover,
+.md-toc .btn:focus {
+    color: var(--heading-color);
+    background: var(--item-hover-bg-color);
+}
+
+.btn,
+.btn .btn-default {
+    background: transparent;
+    color: var(--text-color);
+}
+
+.btn-default:hover,
+.btn-default:focus,
+.btn-default.focus,
+.btn-default:active,
+.btn-default.active,
+.open > .dropdown-toggle.btn-default {
+    color: var(--heading-color);
+    border: 1px solid var(--rule);
+    background-color: inherit;
+}
+
+.btn-primary {
+    color: #151515;
+}
+
+.ty-table-edit {
+    border-top: 1px solid var(--rule);
+    background-color: var(--bg-color);
+}
+
+.popover-title {
+    background: transparent;
+}
+
+#write div.md-toc-tooltip {
+    background-color: var(--bg-color);
+}
+
+/* abrir rápido (⌘⇧O) */
+.auto-suggest-container,
+#typora-quick-open,
+#typora-quick-open input {
+    background-color: #1d1d1c;
+    border: 0;
+}
+
+#typora-quick-open {
+    border: 1px solid var(--rule);
+}
+
+#typora-quick-open input {
+    border-bottom: 1px solid var(--rule);
+}
+
+.typora-quick-open-item {
+    background-color: inherit;
+    color: inherit;
+}
+
+.typora-quick-open-item.active,
+.typora-quick-open-item:hover {
+    background-color: var(--active-file-bg-color);
+    color: var(--heading-color);
+}
+
+/* janelas e diálogos */
+.modal-content {
+    background: var(--bg-color);
+    border: 1px solid var(--rule);
+}
+
+.modal-content input {
+    background-color: #1d1d1c;
+    color: var(--heading-color);
+}
+
+.modal-content .input-group-addon,
+.form-inline .input-group .input-group-addon {
+    color: var(--heading-color);
+}
+
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-header,
+.modal-footer {
+    border: 0;
+}
+
+.modal-footer .btn-default,
+.modal-footer .btn-primary,
+.modal-footer .btn-default:not(:hover) {
+    border: 1px solid transparent;
+}
+
+#md-searchpanel {
+    border-bottom: 1px solid var(--rule);
+}
+
+#md-searchpanel input {
+    color: var(--heading-color);
+}
+
+/* barra lateral e rodapé */
+#typora-sidebar:hover .outline-title-wrapper {
+    border-left: 0;
+}
+
+.outline-title-wrapper .btn {
+    color: inherit;
+}
+
+.file-library-node.active > .file-node-content,
+.file-list-item.active {
+    color: var(--active-file-text-color);
+}
+
+.file-library-node.active > .file-node-background,
+.file-list-item.active {
+    background-color: var(--active-file-bg-color);
+}
+
+.file-list-item.active:first-child {
+    border-top: none;
+}
+
+.active-tab-files #info-panel-tab-file,
+.active-tab-files #info-panel-tab-file:hover,
+.active-tab-outline #info-panel-tab-outline,
+.active-tab-outline #info-panel-tab-outline:hover,
+.sidebar-footer-item:hover,
+.footer-item:hover,
+.ty-side-sort-btn.active,
+.ty-side-sort-btn:hover {
+    color: var(--heading-color);
+    background: inherit;
+}
+
+footer {
+    color: inherit;
+}
+
+.typora-sourceview-on #toggle-sourceview-btn,
+#footer-word-count:hover,
+.ty-show-word-count #footer-word-count,
+#toggle-sourceview-btn:hover {
+    color: var(--heading-color);
+    background: var(--item-hover-bg-color);
+}
+
+#file-info-file-path .file-info-field-value:hover {
+    background-color: var(--item-hover-bg-color);
+    color: var(--heading-color);
+}
+
+#top-titlebar,
+#top-titlebar * {
+    color: var(--control-text-color);
+}
+
+/* menu de arquivo em painel (megamenu) */
+.megamenu-content,
+.megamenu-opened header {
+    background: var(--bg-color);
+}
+
+.megamenu-menu-panel h1,
+.megamenu-menu-panel h2,
+.long-btn {
+    color: inherit;
+}
+
+.megamenu-menu-panel input[type='text'] {
+    background: inherit;
+    border: 0;
+    border-bottom: 1px solid var(--rule);
+}
+
+.megamenu-menu-panel .dropdown-menu > li > a {
+    color: inherit;
+    background-color: #1d1d1c;
+    text-decoration: none;
+}
+
+.megamenu-menu-panel .btn,
+#recent-file-panel-action-btn {
+    border: 1px solid var(--rule);
+    background: transparent;
+}
+
+#recent-file-panel tbody tr:nth-child(2n-1) {
+    background-color: transparent !important;
+}
+
+/* preferências */
+.ty-preferences .window-content {
+    background-color: var(--bg-color);
+}
+
+.ty-preferences .nav-group-item.active,
+.export-item.active,
+.export-items-list-control,
+.export-detail {
+    color: var(--heading-color);
+    background: var(--active-file-bg-color);
+}
+
+.nav-group-item:active {
+    background-color: var(--item-hover-bg-color) !important;
+}
+
+.ty-preferences .btn-default {
+    background: transparent;
+}
+
+.ty-preferences .btn-default:hover {
+    background: var(--item-hover-bg-color);
+}
+
+.ty-preferences select {
+    border: 1px solid var(--rule);
+}
+
+.ty-preferences input[type="search"] {
+    border-color: #242422;
+    background: #242422;
+    border-radius: 6px;
+    color: var(--heading-color);
+}
+
+.ty-preferences input[type="search"]:focus {
+    box-shadow: none;
+}
+
+/* barra de formatação flutuante */
+.ty-editor-toolbar {
+    background: #1d1d1c;
+    border: 1px solid var(--rule);
+    filter: drop-shadow(0 2px 6px rgb(0 0 0 / 40%));
+    --text-color: #f4f2ed;
+}
+
+/* fórmulas e diagramas */
+.md-inline-math svg {
+    color: var(--text-color);
+}
+
+.md-mathjax-midline {
+    background-color: var(--fence-bg);
+    border-bottom: none;
+}
+
+#write .md-focus .md-diagram-panel {
+    border: 1px solid var(--rule);
+}
+
+.md-diagram-panel-error {
+    color: var(--code-tag);
+}
+
+#write pre.md-meta-block {
+    border-bottom: 0;
+}
+
+/* destaques do GitHub (> [!NOTE] etc.) */
+.md-alert-text-note      { color: #91b9de; }
+.md-alert-text-tip       { color: #a9cf8f; }
+.md-alert-text-important { color: #d1a9e6; }
+.md-alert-text-warning   { color: #f0b03a; }
+.md-alert-text-caution   { color: #e59c8f; }
+
+/* ===== Cromo ===== */
+
+:root {
+    --font-display: "Avenir Next", "Helvetica Neue", sans-serif;
+
+    --bg-color: #0f1113;
+    --text-color: #c5cad2;
+    --heading-color: #eef1f5;
+    --muted-color: #858c97;
+    --faint-color: #5a616b;
+    --blur-color: #3b4047;
+    --rule: #262a30;
+    --code-bg: #1c1f24;
+    --fence-bg: #15181c;
+    --scroll-thumb: rgba(204, 210, 220, 0.22);
+
+    --silver: #cfd5dd;
+    --metal: linear-gradient(180deg, #ffffff 0%, #e3e7ec 34%, #9aa2ad 50%, #dfe4ea 66%, #aab2bd 100%);
+
+    --accent: #8fd3ff;
+    --accent-strong: #b5e2ff;
+    --glow: rgba(143, 211, 255, 0.35);
+    --mark-bg: rgba(143, 211, 255, 0.18);
+    --select-text-bg-color: rgba(143, 211, 255, 0.24);
+    --search-select-bg-color: #8fd3ff;
+    --check-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2l2.3 2.3 4.7-5' fill='none' stroke='%230f1113' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+    --code-keyword: #a9b8ff;
+    --code-string: #9fd8c4;
+    --code-number: #e6c98f;
+    --code-def: #8fd3ff;
+    --code-tag: #e3a5b5;
+
+    --md-char-color: #4d535c;
+    --meta-content-color: #747b86;
+    --heading-char-color: #464c55;
+
+    --side-bar-bg-color: #0b0c0e;
+    --control-text-color: #858c97;
+    --item-hover-bg-color: #171a1e;
+    --active-file-bg-color: rgba(204, 210, 220, 0.09);
+    --active-file-text-color: #eef1f5;
+    --active-file-border-color: #8fd3ff;
+    --primary-color: #8fd3ff;
+    --window-border: 1px solid #262a30;
+    --rawblock-edit-panel-bd: #1c1f24;
+}
+
+/* ---------- Títulos em prata polida ---------- */
+
+h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    background: var(--metal);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    caret-color: var(--accent);
+    background-repeat: repeat-y;
+}
+
+/* o degradê se repete a cada linha do título, para o brilho cair no meio das letras */
+h1 { background-size: 100% 1.25em; }
+h2 { background-size: 100% 1.3em; }
+h3 { background-size: 100% 1.4em; }
+
+h1 {
+    font-size: 2.15em;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    line-height: 1.25;
+}
+
+/* fio de metal que some para a direita */
+#write h1::after {
+    content: "";
+    display: block;
+    height: 1px;
+    margin-top: 0.5em;
+    background: linear-gradient(90deg, var(--silver), rgba(207, 213, 221, 0.25) 45%, transparent);
+}
+
+h2 {
+    font-size: 1.45em;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+}
+
+h3 {
+    font-size: 1.12em;
+    letter-spacing: 0.03em;
+}
+
+h1 ::selection, h2 ::selection, h3 ::selection,
+h1::selection, h2::selection, h3::selection {
+    -webkit-text-fill-color: #ffffff;
+}
+
+h4 {
+    color: var(--accent);
+    letter-spacing: 0.14em;
+}
+
+/* ---------- Placas de metal ---------- */
+
+#write .md-fences {
+    background: linear-gradient(180deg, #181b20, #121418);
+    border: 0;
+    border-radius: 10px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.07),
+        0 0 0 1px #2b3037,
+        0 10px 28px rgba(0, 0, 0, 0.4);
+}
+
+#write pre.md-meta-block {
+    background: linear-gradient(180deg, #16191d, #121418);
+    box-shadow: 0 0 0 1px #24282e;
+}
+
+#write code {
+    color: var(--heading-color);
+    background: #1e2227;
+    box-shadow: inset 0 0 0 1px #2b3037;
+}
+
+blockquote {
+    border-left: 2px solid;
+    border-image: linear-gradient(180deg, #ffffff, #6b7380) 1;
+    color: var(--muted-color);
+}
+
+#write hr {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--silver) 50%, transparent);
+    opacity: 0.55;
+}
+
+#write a {
+    text-decoration-color: var(--accent);
+}
+
+#write a:hover {
+    text-shadow: 0 0 10px var(--glow);
+}
+
+#write table th {
+    font-size: 0.82em;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--silver);
+    border-bottom: 1px solid #6b7380;
+}
+
+.md-task-list-item {
+    --check-radius: 3px;
+    --check-glow: 0 0 8px var(--glow);
+}
+
+/* ---------- Barra lateral: botão prata na nota aberta ---------- */
+
+.file-list-item.active,
+.file-library-node.active > .file-node-background,
+.outline-item-active {
+    background-color: var(--active-file-bg-color);
+    box-shadow:
+        inset 0 0 0 1px rgba(204, 210, 220, 0.45),
+        inset 2px 0 0 var(--accent);
+}
+
+/* ---------- Impressão: títulos sólidos, sem metal ---------- */
+
+@media print {
+    h1, h2, h3 {
+        background: none;
+        -webkit-text-fill-color: #111111;
+    }
+    #write .md-fences { box-shadow: none; background: #f5f4f0; }
+}
